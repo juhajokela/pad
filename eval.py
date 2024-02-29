@@ -347,6 +347,7 @@ def run_one_epoch(
 
         # Compute loss
         if attend_across_segments:
+            print(labels.min(), labels.max())
             loss = sum([criterion(o, labels) for o in outputs]) / len(outputs)
         else:
             loss = sum([sum([criterion(ost, labels) for ost in os]) for os in outputs]) / len(outputs) / len(outputs[0])
