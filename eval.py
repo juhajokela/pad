@@ -347,7 +347,7 @@ def run_one_epoch(
 
         # Compute loss
         if attend_across_segments:
-            loss = sum([criterion(o, labels.type(torch.LongTensor)) for o in outputs]) / len(outputs)
+            loss = sum([criterion(o.type(torch.LongTensor), labels) for o in outputs]) / len(outputs)
         else:
             loss = sum([sum([criterion(ost, labels) for ost in os]) for os in outputs]) / len(outputs) / len(outputs[0])
         with torch.no_grad():
