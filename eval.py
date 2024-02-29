@@ -327,8 +327,8 @@ def run_one_epoch(
                 [dij.to(device, non_blocking=True) for dij in di]  # iterate over spatial views of clip
                 for di in data[0]  # iterate over temporal index of clip
             ]
-            clip_indices = [d.to(device, non_blocking=True) for d in data[2]]
-            labels = data[1].to(device)
+            clip_indices = [d.float().to(device, non_blocking=True) for d in data[2]]
+            labels = data[1].long().to(device)
             batch_size = len(labels)
 
             # Forward and prediction
@@ -347,7 +347,7 @@ def run_one_epoch(
 
         # Compute loss
         if attend_across_segments:
-            loss = sum([criterion(o.float(), labels.long()) for o in outputs]) / len(outputs)
+            loss = sum([criterion(o, labels) for o in outputs]) / len(outputs)
         else:
             loss = sum([sum([criterion(ost, labels) for ost in os]) for os in outputs]) / len(outputs) / len(outputs[0])
         with torch.no_grad():
