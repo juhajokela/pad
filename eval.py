@@ -327,7 +327,7 @@ def run_one_epoch(
                 [dij.to(device, non_blocking=True) for dij in di]  # iterate over spatial views of clip
                 for di in data[0]  # iterate over temporal index of clip
             ]
-            clip_indices = [d.float().to(device, non_blocking=True) for d in data[2]]
+            clip_indices = [d.to(device, non_blocking=True) for d in data[2]]
             labels = data[1].long().to(device)
             batch_size = len(labels)
 
